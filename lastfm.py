@@ -28,10 +28,20 @@ lastfm = lastfm[lastfm.Date.dt.year >= 2010]
 
 columns = ['Month', 'count of plays in month', 'day', 'plays on date']
 
-time = pd.DataFrame(index=['day'], columns=columns)
 time1 = lastfm['Date'].dt.month
+time2 = lastfm['Date'].dt.date
 
-time  = pd.DataFrame(time1.value_counts())
+time  = pd.DataFrame(time2.value_counts())
+
+# Get current size
+fig_size = plt.rcParams["figure.figsize"]
+ 
+# Prints: [8.0, 6.0]
+# Set figure width to 12 and height to 9
+fig_size[0] = 12
+fig_size[1] = 9
+plt.rcParams["figure.figsize"] = fig_size
 
 time.sort_index(inplace=True)
+
 plt.plot(time.index, time.Date)
