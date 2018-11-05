@@ -51,9 +51,11 @@ lastfm = lastfm[lastfm.Date.dt.year >= 2010]
 
 time1 = lastfm['Date'].dt.month
 time2 = lastfm['Date'].dt.date
+time3 = lastfm['Date'].dt.year
 
 timemonth = pd.DataFrame(time1.value_counts())
 timedate = pd.DataFrame(time2.value_counts())
+timeyear = pd.DataFrame(time3.value_counts())
 
 # Get current size
 fig_size = plt.rcParams["figure.figsize"]
@@ -66,6 +68,7 @@ plt.rcParams["figure.figsize"] = fig_size
 
 timemonth.sort_index(inplace=True)
 timedate.sort_index(inplace=True)
+timeyear.sort_index(inplace=True)
 
 plt.xlabel('Months')
 plt.ylabel('Total Plays')
@@ -79,3 +82,9 @@ plt.plot(timedate.index, timedate.Date)
 plt.savefig('Total plays Per day Plot.png')
 plt.close()
 
+
+plt.xlabel("Year")
+plt.ylabel('Total Plays')
+plt.plot(timeyear.index, timeyear.Date)
+plt.savefig('Total plays Per Year Plot.png')
+plt.close()
