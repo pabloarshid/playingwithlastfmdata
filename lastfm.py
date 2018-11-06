@@ -96,7 +96,6 @@ plt.xticks(y, idy, rotation=90)
 
 fig.savefig('combined totals.png')
 
-del timemonth, timeyear, timedate, Season, fig
 
 fig = plt.figure()
 ax1 = fig.add_subplot(121)
@@ -119,15 +118,48 @@ pm = lastfm[lastfm['TOD'] == 'PM']
 amVC = pd.DataFrame(am['Day of the Week'].value_counts())
 pmVC = pd.DataFrame(pm['Day of the Week'].value_counts())
 
+ammonthlyVC = pd.DataFrame(am['Date'].dt.month.value_counts())
+pmmonthlyVC = pd.DataFrame(pm['Date'].dt.month.value_counts())
+
+amyearlyVC = pd.DataFrame(am['Date'].dt.year.value_counts())
+pmyearlyVC = pd.DataFrame(pm['Date'].dt.year.value_counts())
+
+amSeasonVC = pd.DataFrame(am['Season'].value_counts())
+pmSeasonVC = pd.DataFrame(pm['Season'].value_counts())
+
 fig = plt.figure()
-ax = fig.add_subplot(121)
+
+ax1 = fig.add_subplot(221)
 idy=DoftheW.index.tolist()
 y = range(len(idy))
 plt.bar(y, amVC['Day of the Week'].values, color='b',align='center')
 plt.bar(y, pmVC['Day of the Week'].values, color='g',align='center')
 plt.xticks(y, idy, rotation=90)
+ax1.legend( ('AM', 'PM') )
+
+ax2 = fig.add_subplot(222)
+idy=Season.index.tolist()
+y = range(len(idy))
+plt.bar(y, amSeasonVC['Season'].values, color='b',align='center')
+plt.bar(y, pmSeasonVC['Season'].values, color='g',align='center')
+plt.xticks(y, idy, rotation=90)
+ax2.legend( ('AM', 'PM') )
 
 
-ax.legend( ('AM', 'PM') )
+ax3 = fig.add_subplot(223)
+idy=timemonth.index.tolist()
+y = range(len(idy))
+plt.bar(y, ammonthlyVC['Date'].values, color='b',align='center')
+plt.bar(y, pmmonthlyVC['Date'].values, color='g',align='center')
+plt.xticks(y, idy)
+ax3.legend( ('AM', 'PM') )
 
+
+ax4 = fig.add_subplot(224)
+idy=timeyear.index.tolist()
+y = range(len(idy))
+plt.bar(y, amyearlyVC['Date'].values, color='b',align='center')
+plt.bar(y, pmyearlyVC['Date'].values, color='g',align='center')
+plt.xticks(y, idy)
+ax4.legend( ('AM', 'PM') )
 fig.savefig('AMPM Comparison.png')
