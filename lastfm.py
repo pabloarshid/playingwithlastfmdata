@@ -73,43 +73,29 @@ timemonth.sort_index(inplace=True)
 timedate.sort_index(inplace=True)
 timeyear.sort_index(inplace=True)
 Season.sort_index(inplace=True)
-# DoftheW.sort_index(inplace=True)
-
-# plt.xlabel('Months')
-# plt.ylabel('Total Plays')
-# plt.plot(timemonth.index, timemonth.Date)
-# plt.savefig('Total plays per month Plot.png')
-# plt.close()
-
-# plt.xlabel("Day")
-# plt.ylabel('Total Plays')
-# plt.plot(timedate.index, timedate.Date)
-# plt.savefig('Total plays Per day Plot.png')
-# plt.close()
-
-
-# plt.xlabel("Year")
-# plt.ylabel('Total Plays')
-# plt.plot(timeyear.index, timeyear.Date)
-# plt.savefig('Total plays Per Year Plot.png')
-# plt.close()
+DoftheW.sort_index(inplace=True)
 
 fig = plt.figure()
 
 ax1 = fig.add_subplot(231)
-ax1.plot(timedate.index, timedate.Date, 'r-')
+ax1.bar(timedate.index, timedate.Date)
 
 ax2 = fig.add_subplot(232)
-ax2.plot(timeyear.index, timeyear.Date, 'k-')
+ax2.bar(timeyear.index, timeyear.Date)
 
 ax3 = fig.add_subplot(233)
-ax3.plot(timemonth.index, timemonth.Date, 'b-')
+ax3.bar(timemonth.index, timemonth.Date)
 
 ax4 = fig.add_subplot(234)
-ax4.plot(Season.index, Season.Season, 'b-')
+idx=Season.index.tolist()
+x = range(len(idx))
+plt.bar(x, Season['Season'].values)
+plt.xticks(x, idx)
 
 ax5 = fig.add_subplot(235)
-ax5.plot(DoftheW.index, DoftheW['Day of the Week'], 'b-')
-
+idy=DoftheW.index.tolist()
+y = range(len(idy))
+plt.bar(y, DoftheW['Day of the Week'].values)
+plt.xticks(y, idy, rotation=90)
 
 fig.savefig('combined totals.png')
