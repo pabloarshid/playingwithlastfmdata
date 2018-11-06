@@ -96,5 +96,22 @@ plt.xticks(y, idy, rotation=90)
 
 fig.savefig('combined totals.png')
 
-del timemonth, timeyear, timedate, Season, DoftheW
+del timemonth, timeyear, timedate, Season, DoftheW, fig
 
+fig = plt.figure()
+ax1 = fig.add_subplot(221)
+TOD = pd.DataFrame(lastfm['TOD'].value_counts())
+idx=TOD.index.tolist()
+x = range(len(idx))
+plt.bar(x, TOD['TOD'].values)
+plt.xticks(x, idx)
+
+specificTime = pd.DataFrame(lastfm['DateTime'].dt.hour.value_counts())
+ax2 = fig.add_subplot(222)
+plt.bar(specificTime.index, specificTime.DateTime.values)
+
+
+# ax2 = fig.add_subplot(223)
+
+
+fig.savefig('AMPM and hourly totals.png')
