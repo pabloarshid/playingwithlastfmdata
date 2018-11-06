@@ -96,10 +96,10 @@ plt.xticks(y, idy, rotation=90)
 
 fig.savefig('combined totals.png')
 
-del timemonth, timeyear, timedate, Season, DoftheW, fig
+del timemonth, timeyear, timedate, Season, fig
 
 fig = plt.figure()
-ax1 = fig.add_subplot(221)
+ax1 = fig.add_subplot(121)
 TOD = pd.DataFrame(lastfm['TOD'].value_counts())
 idx=TOD.index.tolist()
 x = range(len(idx))
@@ -107,11 +107,27 @@ plt.bar(x, TOD['TOD'].values)
 plt.xticks(x, idx)
 
 specificTime = pd.DataFrame(lastfm['DateTime'].dt.hour.value_counts())
-ax2 = fig.add_subplot(222)
+ax2 = fig.add_subplot(122)
 plt.bar(specificTime.index, specificTime.DateTime.values)
 
 
-# ax2 = fig.add_subplot(223)
-
-
 fig.savefig('AMPM and hourly totals.png')
+
+am = lastfm[lastfm['TOD'] == 'AM']
+pm = lastfm[lastfm['TOD'] == 'PM']
+
+amVC = pd.DataFrame(am['Day of the Week'].value_counts())
+pmVC = pd.DataFrame(pm['Day of the Week'].value_counts())
+
+fig = plt.figure()
+ax = fig.add_subplot(121)
+idy=DoftheW.index.tolist()
+y = range(len(idy))
+plt.bar(y, amVC['Day of the Week'].values, color='b',align='center')
+plt.bar(y, pmVC['Day of the Week'].values, color='g',align='center')
+plt.xticks(y, idy, rotation=90)
+
+
+ax.legend( ('AM', 'PM') )
+
+fig.savefig('AMPM Comparison.png')
