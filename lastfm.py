@@ -20,17 +20,11 @@ def get_season(row):
     else:
         return '4'
 
-# get more specific seasons 
-
-def get_season2(row):
-    if (row['Date'].month >= 3 and row['Date'].day >= 20)  and (row['Date'].month <= 6 and row['Date'].day <= 20):
-        return '1'
-    elif (row['Date'].month >= 6 and row['Date'].day >= 21) and (row['Date'].month <= 9 and row['Date'].day <= 20):
-        return '2'
-    elif (row['Date'].month >= 9 and row['Date'].day >= 20) and (row['Date'].month <= 12 and row['Date'].day <= 20):
-        return '3'
+def ampm(row):
+    if row["DateTime"].hour < 12:
+        return 'AM'
     else:
-        return '4'
+        return 'PM'
 
 # Seperate Date and Time
 # Add days of the week
@@ -43,6 +37,7 @@ lastfm['Time'] = temp.time
 lastfm['Date'] = pd.to_datetime(lastfm['Date'])
 DotW = lastfm['Date'].dt.weekday_name
 lastfm['Season'] = lastfm.apply(get_season, axis=1)
+lastfm["TOD"] = lastfm.apply(ampm, axis=1)
 lastfm['Day of the Week'] = DotW
 lastfm = lastfm.dropna()
 lastfm = lastfm[lastfm.Date.dt.year >= 2010]
@@ -90,7 +85,8 @@ ax4 = fig.add_subplot(234)
 idx=Season.index.tolist()
 x = range(len(idx))
 plt.bar(x, Season['Season'].values)
-plt.xticks(x, idx)
+plt.xticks(x, idx, rotation=90)
+
 
 ax5 = fig.add_subplot(235)
 idy=DoftheW.index.tolist()
@@ -99,3 +95,6 @@ plt.bar(y, DoftheW['Day of the Week'].values)
 plt.xticks(y, idy, rotation=90)
 
 fig.savefig('combined totals.png')
+
+del timemonth, timeyear, timedate, Season, DoftheW
+
