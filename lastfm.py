@@ -53,22 +53,27 @@ time1 = lastfm['Date'].dt.month
 time2 = lastfm['Date'].dt.date
 time3 = lastfm['Date'].dt.year
 
+
 timemonth = pd.DataFrame(time1.value_counts())
 timedate = pd.DataFrame(time2.value_counts())
 timeyear = pd.DataFrame(time3.value_counts())
+Season = pd.DataFrame(lastfm['Season'].value_counts())
+DoftheW = pd.DataFrame(lastfm['Day of the Week'].value_counts())
 
 # Get current size
 fig_size = plt.rcParams["figure.figsize"]
  
 # Prints: [8.0, 6.0]
 # Set figure width to 12 and height to 9
-fig_size[0] = 12
-fig_size[1] = 9
+fig_size[0] = 18
+fig_size[1] = 15
 plt.rcParams["figure.figsize"] = fig_size
 
 timemonth.sort_index(inplace=True)
 timedate.sort_index(inplace=True)
 timeyear.sort_index(inplace=True)
+Season.sort_index(inplace=True)
+# DoftheW.sort_index(inplace=True)
 
 # plt.xlabel('Months')
 # plt.ylabel('Total Plays')
@@ -91,13 +96,20 @@ timeyear.sort_index(inplace=True)
 
 fig = plt.figure()
 
-ax1 = fig.add_subplot(221)
+ax1 = fig.add_subplot(231)
 ax1.plot(timedate.index, timedate.Date, 'r-')
 
-ax2 = fig.add_subplot(222)
+ax2 = fig.add_subplot(232)
 ax2.plot(timeyear.index, timeyear.Date, 'k-')
 
-ax3 = fig.add_subplot(223)
+ax3 = fig.add_subplot(233)
 ax3.plot(timemonth.index, timemonth.Date, 'b-')
+
+ax4 = fig.add_subplot(234)
+ax4.plot(Season.index, Season.Season, 'b-')
+
+ax5 = fig.add_subplot(235)
+ax5.plot(DoftheW.index, DoftheW['Day of the Week'], 'b-')
+
 
 fig.savefig('combined totals.png')
