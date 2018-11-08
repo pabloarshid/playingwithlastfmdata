@@ -163,3 +163,7 @@ plt.bar(y, pmyearlyVC['Date'].values, color='g',align='center')
 plt.xticks(y, idy)
 ax4.legend( ('AM', 'PM') )
 fig.savefig('AMPM Comparison.png')
+
+lastfm['Month'] = lastfm['Date'].dt.month
+lastfm['Year'] = lastfm['Date'].dt.year
+dotw = pd.pivot_table(lastfm,index=[ "Year"],values=["TOD"],columns=["Day of the Week"],aggfunc=len)
