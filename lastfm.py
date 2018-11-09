@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 
 headers = ["Artist", "Album", "Song", "DateTime"]
 lastfm = pd.read_csv('umarsabir.csv', names = headers, parse_dates=[3])
@@ -164,6 +164,16 @@ plt.xticks(y, idy)
 ax4.legend( ('AM', 'PM') )
 fig.savefig('AMPM Comparison.png')
 
+
 lastfm['Month'] = lastfm['Date'].dt.month
 lastfm['Year'] = lastfm['Date'].dt.year
-dotw = pd.pivot_table(lastfm,index=[ "Year"],values=["TOD"],columns=["Day of the Week"],aggfunc=len)
+
+dotw = lastfm.groupby('Day of the Week').Year.value_counts()
+dotw.to_frame().Year
+dotw = dotw.reset_index(level=["Day of the Week"])
+dotw = dotw.rename(columns={'Year': 'Count'})
+dotw.reset_index(level=0, inplace=True)
+
+sns_plot = sns.factorplot("Day of the Week","Count", "Year", data=dotw, kind="bar", palette="muted")
+sns_plot.savefig("DayofWeek vs Year count Seaborn.png")
+
