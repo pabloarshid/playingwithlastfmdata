@@ -5,6 +5,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+plt.style.use('ggplot')
+
 headers = ["Artist", "Album", "Song", "DateTime"]
 lastfm = pd.read_csv('umarsabir.csv', names = headers, parse_dates=[3])
 
@@ -74,12 +76,14 @@ fig = plt.figure()
 
 ax1 = fig.add_subplot(231)
 ax1.bar(timedate.index, timedate.Date)
+ax1.plot(timedate['Date'].rolling(30).mean(), 'b',label= 'MA 30 days')
 
 ax2 = fig.add_subplot(232)
 ax2.bar(timeyear.index, timeyear.Date)
 
 ax3 = fig.add_subplot(233)
 ax3.bar(timemonth.index, timemonth.Date)
+ax3.plot(timemonth['Date'].rolling(3).mean(),'b',label= 'MA 3 Months')
 
 ax4 = fig.add_subplot(234)
 idx=Season.index.tolist()
@@ -174,6 +178,6 @@ dotw = dotw.reset_index(level=["Day of the Week"])
 dotw = dotw.rename(columns={'Year': 'Count'})
 dotw.reset_index(level=0, inplace=True)
 
-sns_plot = sns.factorplot("Day of the Week","Count", "Year", data=dotw, kind="bar", palette="muted")
+sns_plot = sns.catplot("Day of the Week","Count", "Year", data=dotw, kind="bar", palette="muted",height=8.27, aspect=11.7/8.27)
 sns_plot.savefig("DayofWeek vs Year count Seaborn.png")
 
