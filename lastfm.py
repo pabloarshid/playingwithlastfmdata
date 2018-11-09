@@ -197,3 +197,14 @@ doampm = doampm.rename(columns={'TOD': 'Count'})
 doampm.reset_index(level=0, inplace=True)
 sns_plot = sns.catplot("Day of the Week","Count", "TOD", data=doampm, kind="bar", palette="muted",height=8.27, aspect=11.7/8.27)
 sns_plot.savefig("DayofWeek vs AMPM count Seaborn.png")
+
+
+# My top 20 Artists
+# Lets compare my favorite artists
+artist = pd.DataFrame(lastfm['Artist'].value_counts())
+artist = artist[:20]
+artist.reset_index(level=0, inplace=True)
+artist = artist.rename(columns={'index': 'Artist', 'Artist':'Count'})
+
+sns_plot = sns.catplot("Artist", "Count", data=artist, kind="bar", palette="muted", height=8.27, aspect=25/8.27)
+sns_plot.savefig("Top 20 Artists.png")
