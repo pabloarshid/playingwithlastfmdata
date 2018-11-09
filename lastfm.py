@@ -181,3 +181,19 @@ dotw.reset_index(level=0, inplace=True)
 sns_plot = sns.catplot("Day of the Week","Count", "Year", data=dotw, kind="bar", palette="muted",height=8.27, aspect=11.7/8.27)
 sns_plot.savefig("DayofWeek vs Year count Seaborn.png")
 
+dotwmonth = lastfm.groupby('Day of the Week').Month.value_counts()
+dotwmonth.to_frame().Month
+dotwmonth = dotwmonth.reset_index(level=["Day of the Week"])
+dotwmonth = dotwmonth.rename(columns={'Month': 'Count'})
+dotwmonth.reset_index(level=0, inplace=True)
+sns_plot = sns.catplot("Month","Count","Day of the Week", data=dotwmonth, kind="bar", palette="muted",height=8.27, aspect=11.7/8.27)
+sns_plot.savefig("DayofWeek vs Month count Seaborn.png")
+
+
+doampm = lastfm.groupby('Day of the Week').TOD.value_counts()
+doampm.to_frame().TOD
+doampm = doampm.reset_index(level=["Day of the Week"])
+doampm = doampm.rename(columns={'TOD': 'Count'})
+doampm.reset_index(level=0, inplace=True)
+sns_plot = sns.catplot("Day of the Week","Count", "TOD", data=doampm, kind="bar", palette="muted",height=8.27, aspect=11.7/8.27)
+sns_plot.savefig("DayofWeek vs AMPM count Seaborn.png")
